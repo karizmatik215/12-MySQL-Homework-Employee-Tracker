@@ -19,7 +19,9 @@
   "homepage": "https://github.com/karizmatik215/12-MySQL-Homework-Employee-Tracker#readme",
   "dependencies": {
     "console.table": "^0.10.0",
+    "dotenv": "^8.2.0",
     "inquirer": "^8.0.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "path": "^0.12.7"
   }
 }
