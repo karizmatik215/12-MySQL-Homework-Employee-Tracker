@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (!err) {
-    console.log('Connected');
+    console.log(`Your port is ${connection.config.port}`);
   } else throw console.error('Error Connecting');
 });
 
