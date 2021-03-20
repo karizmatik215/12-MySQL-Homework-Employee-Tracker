@@ -17,35 +17,35 @@ const start = () => {
       type: 'list',
       message: 'What would you like to do?',
       choices: [
-        'Add Department',
-        'Add Role',
+        'View All Employees',
         'Add Employee',
-        'View Department',
-        'View Role',
-        'View Employee',
+        'View Departments',
+        'Add Department',
+        'View Employee Roles',
+        'Add Role',
         'Update Employee Role',
         'Exit',
       ],
     })
     .then((answer) => {
       switch (answer.choices) {
-        case 'Add Department':
-          addDepartment();
-          break;
-        case 'Add Role':
-          addRole();
+        case 'View All Employees':
+          viewAllEmployees();
           break;
         case 'Add Employee':
           addEmployee();
           break;
-        case 'View Department':
-          viewDepartment();
+        case 'View Departments':
+          viewDepartments();
           break;
-        case 'View Role':
-          viewRole();
+        case 'Add Department':
+          addDepartment();
           break;
-        case 'View Employee':
-          viewEmployee();
+        case 'View Employee Roles':
+          viewEmployeeRoles();
+          break;
+        case 'Add Role':
+          addRole();
           break;
         case 'Update Employee Role':
           updateEmployeeRole();
@@ -56,3 +56,11 @@ const start = () => {
       }
     });
 };
+
+function viewAllEmployees() {}
+function addEmployee() {}
+function viewDepartments() {}
+function addDepartment() {}
+function viewEmployeeRoles() {}
+function addRole() {}
+function updateEmployeeRole() {}
