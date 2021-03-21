@@ -123,32 +123,35 @@ const addEmployee = () => {
         name: 'firstName',
         type: 'input',
         message: 'What is the employees first name?',
+        validate: function validateFirstName(name) {
+          return name !== '';
+        },
       },
       {
         name: 'lastName',
         type: 'input',
         message: 'What is the employees last name?',
+        validate: function validateLastName(name) {
+          return name !== '';
+        },
       },
       {
         name: 'roleId',
         type: 'input',
         message: 'What is the employees role id?',
-      },
-      {
-        name: 'managerId',
-        type: 'input',
-        message: 'What is the employees manager id?',
+        validate: function validateRole(name) {
+          return name !== '';
+        },
       },
     ])
     .then((answer) => {
       const firstName = answer.firstName;
       const lastName = answer.lastName;
       const roleId = answer.roleId;
-      const managerId = answer.managerId;
       connection.query(
         `INSERT INTO 
-          employee (first_name, last_name, role_id, manager_id) 
-        VALUE("${firstName}", "${lastName}", "${roleId}", "${managerId}")`,
+          employee (first_name, last_name, role_id) 
+        VALUE("${firstName}", "${lastName}", "${roleId}")`,
         (error) => {
           if (error) throw error;
           console.log('New Employee Added');
