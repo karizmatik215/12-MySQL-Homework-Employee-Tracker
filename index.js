@@ -189,7 +189,7 @@ const addDepartment = () => {
       connection.query(
         `INSERT INTO department (department_name) VALUES("${department}")`,
         (error) => {
-          if (error) throw error;
+          if (error) throw console.error('Department Already Exists');
           console.log('New Department Added');
           start();
         }
@@ -223,6 +223,9 @@ const addRole = () => {
         name: 'salary',
         type: 'input',
         message: 'What is the salary for the position?',
+        validate: function validateSalary(name) {
+          return name !== '';
+        },
       },
     ])
     .then((answer) => {
@@ -235,7 +238,7 @@ const addRole = () => {
           salary: salary,
         },
         (error) => {
-          if (error) throw error;
+          if (error) throw console.error('Employee Role Already Exists');
           console.log('New Position Added');
           start();
         }
@@ -249,7 +252,7 @@ const updateEmployeeRole = () => {
       {
         name: 'name',
         type: 'input',
-        message: 'Which employee would you like to update?',
+        message: 'Which employee would you like to update? (Enter First Name)',
       },
       {
         name: 'role_id',
