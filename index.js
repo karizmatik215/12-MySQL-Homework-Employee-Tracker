@@ -9,7 +9,7 @@ connection.connect((err) => {
       `Connected to Employee Tracker on port ${connection.config.port}`
     );
     console.log(`
-  ---------------------------------------------------------------------------------------                                                
+  ---------------------------------------------------------------------------------------
  ________                          __                                         
 /        |                        /  |                                        
 $$$$$$$$/  _____  ____    ______  $$ |  ______   __    __   ______    ______  
@@ -40,21 +40,23 @@ $$/      $$/  $$$$$$$/ $$/   $$/  $$$$$$$/  $$$$$$$ | $$$$$$$/ $$/
 
 const start = () => {
   inquirer
-    .prompt({
-      name: 'choices',
-      type: 'list',
-      message: 'What would you like to do?',
-      choices: [
-        'View All Employees',
-        'Add Employee',
-        'View Departments',
-        'Add Department',
-        'View Employee Roles',
-        'Add Role',
-        'Update Employee Role',
-        'Exit',
-      ],
-    })
+    .prompt([
+      {
+        name: 'choices',
+        type: 'list',
+        message: 'What would you like to do?',
+        choices: [
+          'View All Employees',
+          'Add Employee',
+          'View Departments',
+          'Add Department',
+          'View Employee Roles',
+          'Add Role',
+          'Update Employee Role',
+          'Exit',
+        ],
+      },
+    ])
     .then((answer) => {
       switch (answer.choices) {
         case 'View All Employees':
@@ -114,7 +116,47 @@ const viewAllEmployees = () => {
   );
 };
 //Add An Employee
-const addEmployee = () => {};
+const addEmployee = () => {
+  inquirer
+    .prompt([
+      {
+        name: 'firstName',
+        type: 'input',
+        message: 'What is the employees first name?',
+      },
+      {
+        name: 'lastName',
+        type: 'input',
+        message: 'What is the employees last name?',
+      },
+      {
+        name: 'roleId',
+        type: 'input',
+        message: 'What is the employees role id?',
+      },
+      {
+        name: 'managerId',
+        type: 'input',
+        message: 'What is the employees manager id?',
+      },
+    ])
+    .then((answer) => {
+      const firstName = answer.firstName;
+      const lastName = answer.lastName;
+      const roleId = answer.roleId;
+      const managerId = answer.managerId;
+      connection.query(
+        `INSERT INTO 
+          employee (first_name, last_name, role_id, manager_id) 
+        VALUE("${firstName}", "${lastName}", "${roleId}", "${managerId}")`,
+        (error) => {
+          if (error) throw error;
+          console.log('New Employee Added');
+          start();
+        }
+      );
+    });
+};
 //View All Departments
 const viewDepartments = () => {
   connection.query(
@@ -130,14 +172,34 @@ const viewDepartments = () => {
   );
 };
 //Add A Department
-const addDepartment = () => {};
+const addDepartment = () => {
+  inquirer
+    .prompt([
+      {
+        name: 'department',
+        type: 'input',
+        message: 'What is the name of the department you would like to add?',
+      },
+    ])
+    .then((answer) => {
+      const department = answer.department;
+      connection.query(
+        `INSERT INTO department (department_name) VALUES("${department}")`,
+        (error) => {
+          if (error) throw error;
+          console.log('New Department Added');
+          start();
+        }
+      );
+    });
+};
 //View All Employee Roles
 const viewEmployeeRoles = () => {
   connection.query(
     `SELECT 
-      title AS Title
+      id AS ID, title AS Title
     FROM
-      employee_role`,
+      employee_role;`,
     (error, query) => {
       if (error) throw error;
       console.table(query);
@@ -146,6 +208,61 @@ const viewEmployeeRoles = () => {
   );
 };
 //Add An Employee Role
-const addRole = () => {};
+const addRole = () => {
+  inquirer
+    .prompt([
+      {
+        name: 'title',
+        type: 'input',
+        message: 'What is the name of the job title?',
+      },
+      {
+        name: 'salary',
+        type: 'input',
+        message: 'What is the salary for the position?',
+      },
+    ])
+    .then((answer) => {
+      const title = answer.title;
+      const salary = answer.salary;
+      connection.query(
+        `INSERT INTO employee_role SET ?`,
+        {
+          title: title,
+          salary: salary,
+        },
+        (error) => {
+          if (error) throw error;
+          console.log('New Position Added');
+          start();
+        }
+      );
+    });
+};
 //Update An Employee Role
-const updateEmployeeRole = () => {};
+const updateEmployeeRole = () => {
+  inquirer
+    .prompt([
+      {
+        name: 'name',
+        type: 'input',
+        message: 'Which employee would you like to update?',
+      },
+      {
+        name: 'role_id',
+        type: 'number',
+        message: 'What is the new role ID?',
+      },
+    ])
+    .then((answer) => {
+      connection.query(
+        `UPDATE employee SET role_id = ? WHERE first_name = ?;`,
+        [answer.role_id, answer.name],
+        (error) => {
+          if (error) throw error;
+          console.log('Employee Role Updated');
+          start();
+        }
+      );
+    });
+};
